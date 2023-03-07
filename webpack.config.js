@@ -4,6 +4,10 @@ module.exports = {
     mode: 'development',
     entry: {
         index: './src/index.js',
+        renderCities: './src/modules/renderCities.js',
+        addNew: './src/modules/addNew.js',
+        apiActions: './src/modules/apiActions.js',
+        cityFactory: './src/modules/cityFactory.js',
   },
   devtool: 'inline-source-map',
   output: {
