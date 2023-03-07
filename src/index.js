@@ -1,16 +1,10 @@
 
 import './style.css';
 
-let allCities = [];
+let allCities = JSON.parse(localStorage.getItem("allCities") || '[]');
 const mainDisplay = document.createElement('div');
 
-const newCityButton = document.createElement('button');
-document.body.appendChild(newCityButton);
-newCityButton.innerText = 'Enter New City';
-newCityButton.addEventListener('click', function() {
-    addNewCity();
-});
-
+window.addEventListener('onLoad', renderCity(allCities))
 
 //recieve new city by location
 function newCityByLocation(addNewContainer) {
@@ -20,7 +14,7 @@ function newCityByLocation(addNewContainer) {
         }), locationError)
     }
     else {
-        alert('Must allow location to be detected')
+        alert('Must allow location to be detected');
         console.log('no location');
     }
     addNewContainer.innerText = '';
@@ -62,12 +56,12 @@ async function getWeather(lat, lon) {
         const cityWeather = await response.json();
         let cityInfo = newCity(cityWeather.name, cityWeather.main.temp, cityWeather.main.temp_max, cityWeather.main.temp_min, cityWeather.weather[0].description, cityWeather.weather[0].icon, lat, lon);
         allCities.push(cityInfo);
-
-        renderCity(allCities);
-
-        
+        updateStorage(allCities);
+        renderCity(allCities);        
         // return cityInfo;
     } catch (error) {
+        alert('Invalid entry');
+        renderCity(allCities);
         console.log(error);
     }
 };
@@ -139,8 +133,12 @@ function renderCity(allCities) {
         cityCard.appendChild(deleteCity);
         deleteCity.addEventListener('click', function(){
             allCities.splice(index , 1);
+            updateStorage(allCities);
             renderCity(allCities);
         })
+    };
+    if(allCities.length < 5) {
+        mainDisplay.appendChild(addNewCity());
     };
 };
 
@@ -148,7 +146,14 @@ function renderCity(allCities) {
 function addNewCity() {
     const addNewContainer = document.createElement('div');
     addNewContainer.classList = 'add-new-container';
-    document.body.appendChild(addNewContainer);
+    
+    const addNewHeader = document.createElement('h3');
+    addNewHeader.textContent = 'Add New City';
+    addNewContainer.appendChild(addNewHeader);
+
+    const addNewText = document.createElement('p');
+    addNewText.textContent = '(Maximum 5 Cities)';
+    addNewContainer.appendChild(addNewText);
 
     const addNewLocationButton = document.createElement('button');
     addNewLocationButton.classList = 'add-new-button';
@@ -172,8 +177,9 @@ function addNewCity() {
     addNewNameButton.addEventListener('click', function() {
         newCityByName(addNewContainer);
     });
-    addNewContainer.appendChild(addNewNameButton);
+    addNewContainer.appendChild(addNewNameButton)
     
+    return addNewContainer;
 }
 
 //receive new city by zip
@@ -248,6 +254,10 @@ function newCityByName(addNewContainer) {
         getLocationByCity(cityInputField.value, stateSelect.value);
         addNewContainer.innerText = '';
     });
+};
+
+function updateStorage(cityArray) {
+    localStorage.setItem("allCities", JSON.stringify(cityArray));
 };
 
 
