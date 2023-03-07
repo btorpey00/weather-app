@@ -1,0 +1,32 @@
+:root {
+    --bg-color: slategray;
+    --text-color: yellowgreen;
+    --card-bg: rgb(82, 98, 114);
+    --button-clr: rgb(67, 83, 99);
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.city-card {
+    box-sizing: border-box;
+    width: min(90vw, 450px);
+    border: 2px solid var(--text-color);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--card-bg);
+}
+
+button {
+    background: var(--button-clr);
+    color: var(--text-color);
+}
+
+.main-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 1rem;
+}
