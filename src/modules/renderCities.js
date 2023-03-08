@@ -1,8 +1,10 @@
 import {  mainDisplay , updateStorage } from "../index";
 import addNewCity from "./addNew";
+import { updateAll } from "./apiActions";
 
 export default function renderCities(allCities) {
     
+    updateAll();
     mainDisplay.classList = 'main-display';
     document.body.appendChild(mainDisplay);
 

@@ -10,8 +10,3 @@ window.addEventListener('onLoad', renderCities(allCities))
 export function updateStorage(cityArray) {
     localStorage.setItem("allCities", JSON.stringify(cityArray));
 };
-
-
-
-
-

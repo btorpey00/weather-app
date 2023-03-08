@@ -54,7 +54,6 @@ export async function getWeather(lat, lon) {
         allCities.push(cityInfo);
         updateStorage(allCities);
         renderCities(allCities);        
-        // return cityInfo;
     } catch (error) {
         alert('Invalid entry');
         renderCities(allCities);
@@ -62,7 +61,27 @@ export async function getWeather(lat, lon) {
     }
 };
 
-// async function extendedForcast(city) {
+export async function updateAll() {
+    for (let i = 0; i < allCities.length; i++) {
+        try {
+            const response = await fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + allCities[i].lat+'&lon='+allCities[i].lon + '&appid=c0a92c0ac55c91de326ffa8fa5b4e1f7&units=imperial', {mode: 'cors'});
+            const cityWeather = await response.json();
+            let cityInfo = newCity(cityWeather.name, cityWeather.main.temp, cityWeather.main.temp_max, cityWeather.main.temp_min, cityWeather.weather[0].description, cityWeather.weather[0].icon, cityWeather.coord.lat, cityWeather.coord.lon);
+            allCities[i] = cityInfo;
+            updateStorage(allCities);
+            // return array;
+            // updateStorage(array);
+            // renderCities(allCities);        
+            // return cityInfo;
+        } catch (error) {
+            alert('Invalid entry');
+            // renderCities(allCities);
+            console.log(error);
+        }
+    }
+}
+
+// async function extendedForecast(city) {
 //     try {
 //         const response = await fetch('https://api.openweathermap.org/data/2.5/forecast?lat='+city.lat+'&lon='+city.lon+'&appid=c0a92c0ac55c91de326ffa8fa5b4e1f7&units=imperial', {mode: 'cors'});
 //         const extendedDetails = await response.json();
